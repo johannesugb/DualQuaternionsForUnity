@@ -23,12 +23,14 @@ namespace Tbx
             {
                 var dq = boneTransformations[j];
                 var w  = weights[j];
-                if(Quaternion.Dot(dq.Rotation, q0) < 0f)
+                var dt = Quaternion.Dot(dq.Rotation, q0);
+                if( dt <= 0.0f) // TODO: Use Quaternion.kEpsilon maybe?
                 {
                     w *= -1f;
                 }
 
-                dq_blend = dq_blend + dq * w;
+                var add_dq = dq * w;
+                dq_blend = dq_blend + add_dq;
             }
 
             // Compute animated position

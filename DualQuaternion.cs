@@ -108,18 +108,27 @@ namespace Tbx
             return _quat_0.normalized * v;
         }
 
+        public Vector3 TranslationVector
+        {
+            get 
+            {
+                var norm = _quat_0.Norm();
+
+                // translation vector from dual quaternion part:
+                Vector3 t;
+                t.x = 2.0f * (-_quat_e.w * _quat_0.x + _quat_e.x * _quat_0.w - _quat_e.y * _quat_0.z + _quat_e.z * _quat_0.y) / norm;
+                t.y = 2.0f * (-_quat_e.w * _quat_0.y + _quat_e.x * _quat_0.z + _quat_e.y * _quat_0.w - _quat_e.z * _quat_0.x) / norm;
+                t.z = 2.0f * (-_quat_e.w * _quat_0.z - _quat_e.x * _quat_0.y + _quat_e.y * _quat_0.x + _quat_e.z * _quat_0.w) / norm;
+                return t;
+            }
+        }
+
         // Convert the dual quaternion to a homogenous matrix
         // N.B: Dual quaternion is normalized before conversion
         public Matrix4x4 ToMatrix()
         {
-            Vector3 t;
             var norm = _quat_0.Norm();
-
-            // translation vector from dual quaternion part:
-            t.x = 2.0f * (-_quat_e.w * _quat_0.x + _quat_e.x * _quat_0.w - _quat_e.y * _quat_0.z + _quat_e.z * _quat_0.y) / norm;
-            t.y = 2.0f * (-_quat_e.w * _quat_0.y + _quat_e.x * _quat_0.z + _quat_e.y * _quat_0.w - _quat_e.z * _quat_0.x) / norm;
-            t.z = 2.0f * (-_quat_e.w * _quat_0.z - _quat_e.x * _quat_0.y + _quat_e.y * _quat_0.x + _quat_e.z * _quat_0.w) / norm;
-
+            var t = TranslationVector;
             return Matrix4x4.TRS(t, _quat_0.DividedBy(norm), Vector3.one);
         }
 
