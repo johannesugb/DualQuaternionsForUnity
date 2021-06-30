@@ -29,6 +29,8 @@ namespace Tbx
         // Returns the translation along the axis
         public float TranslationAlongTheAxis => _d;
 
+        public Vector3 PointTranslatedAlongTheAxis => PointOnTheLine + Line * TranslationAlongTheAxis;
+
         // Returns the line to rotate about, which represent to be the Pluecker Coordiantes 1, 2, and 3.
         public Vector3 Line => _line;
 
