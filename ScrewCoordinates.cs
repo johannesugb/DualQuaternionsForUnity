@@ -1,20 +1,20 @@
 using System;
 using UnityEngine;
 
-namespace Tbx
+namespace DQU
 {
     public struct ScrewCoordinates
     {
         public static ScrewCoordinates From(DualQuaternion dq)
         {
-            var v_r = new Vector3(dq.NonDualPart.x, dq.NonDualPart.y, dq.NonDualPart.z);
-            var v_d = new Vector3(dq.DualPart.x,    dq.DualPart.y,    dq.DualPart.z);
+            var v_r = new Vector3(dq.Real.x, dq.Real.y, dq.Real.z);
+            var v_d = new Vector3(dq.Dual.x,    dq.Dual.y,    dq.Dual.z);
             ScrewCoordinates result;
             result._p = Vector3.zero;
-            result._theta = 2f * Mathf.Acos(dq.NonDualPart.w);
-            result._d = -2f * dq.DualPart.w / v_r.magnitude; 
+            result._theta = 2f * Mathf.Acos(dq.Real.w);
+            result._d = -2f * dq.Dual.w / v_r.magnitude; 
             result._line = v_r.normalized;
-            result._moment = (v_d - result._line * result._d * dq.NonDualPart.w / 2f) / v_r.magnitude;
+            result._moment = (v_d - result._line * result._d * dq.Real.w / 2f) / v_r.magnitude;
             return result;
         }
 
