@@ -32,7 +32,7 @@ namespace DQU
             var real = r.normalized;
             return new DualQuaternion(
                 real,
-                (t.ToQuaternion() * real).MultipliedWith(0.5f)
+                (t.ToPureQuaternion() * real).MultipliedWith(0.5f)
             );
         }
 
@@ -168,6 +168,16 @@ namespace DQU
         public DualQuaternion Conjugate()
         {
             return new DualQuaternion(Real.Conjugate(), Dual.Conjugate());
+        }
+
+        // Returns a new DualQuaternion which is the inverse of this
+        public DualQuaternion Inverse()
+        {
+            var realInverse = Quaternion.Inverse(Real);
+            return new DualQuaternion(
+                realInverse,
+                realInverse * Dual * realInverse
+            );
         }
 
         // -------------------------------------------------------------------------

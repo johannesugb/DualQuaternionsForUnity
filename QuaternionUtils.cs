@@ -8,7 +8,7 @@ namespace DQU
     {
         // Converts a vector to its quaternion representation, which is a quaternion
         // with no rotation, and its vector-components set to the input vector.
-        public static Quaternion ToQuaternion(this Vector3 vec)
+        public static Quaternion ToPureQuaternion(this Vector3 vec)
         {
             return new Quaternion(vec.x, vec.y, vec.z, 0f);
         }
@@ -57,6 +57,14 @@ namespace DQU
         {
             return new Vector3(q.x, q.y, q.z);
         }
+
+        // Gets the vector part of the given quaternion, and performs a check if it really is a pure quaternion
+        public static Vector3 PureQuaternionToPositionVector(this Quaternion q)
+        {
+            Debug.Assert(Mathf.Abs(q.w) < 1e-6);
+            return new Vector3(q.x, q.y, q.z);
+        }
+
 
         // Perform element-wise addition of both quaternions' values
         public static Quaternion Add(Quaternion q1, Quaternion q2)
