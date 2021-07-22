@@ -24,10 +24,10 @@ namespace DQU
                 var dq = boneTransformations[j];
                 var w = weights[j];
                 var dt = Quaternion.Dot(dq.Rotation, q0);
-                if (dt <= 0.0f) // TODO: Use Quaternion.kEpsilon maybe?
-                {
-                    w *= -1f;
-                }
+                // if (dt <= 0.0f) // TODO: Use Quaternion.kEpsilon maybe?
+                // {
+                //     w *= -1f;
+                // }
 
                 var add_dq = dq * w;
                 dq_blend = dq_blend + add_dq;

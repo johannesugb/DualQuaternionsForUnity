@@ -173,10 +173,18 @@ namespace DQU
         // Returns a new DualQuaternion which is the inverse of this
         public DualQuaternion Inverse()
         {
-            var realInverse = Quaternion.Inverse(Real);
+            // var realInverse = Quaternion.Inverse(Real);
+            // return new DualQuaternion(
+            //     realInverse,
+            //     realInverse * Dual * realInverse
+            // );
+
+            // GLM's implementation of tdualquat<T, Q>::inverse
+            var realConj = Real.Conjugate();
+            var dualConj = Dual.Conjugate();
             return new DualQuaternion(
-                realInverse,
-                realInverse * Dual * realInverse
+                realConj,
+                QuaternionUtils.Add(dualConj, realConj.MultipliedWith(-2.0f * Quaternion.Dot(realConj, dualConj)))
             );
         }
 
