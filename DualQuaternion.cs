@@ -111,6 +111,12 @@ namespace DQU
         {
             // Rotate, then translate:
             return (real * p) + TranslationVectorFrom(real, dual);
+
+            // // GLM implementation (same results):
+            // var vr = real.VectorPart();
+            // var vd = dual.VectorPart();
+
+            // return (Vector3.Cross(vr, Vector3.Cross(vr, p) + p * real.w + vd) + vd * real.w - vr * dual.w) * 2.0f + p;
         }
 
         // Transformation of point p with the dual quaternion
